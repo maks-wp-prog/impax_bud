@@ -35,14 +35,32 @@ wp-config.php
 # htaccess
 /.htaccess
 
+# ============================================================================
+# Docker
+# ============================================================================
+.env
+docker-compose.override.yml
+
+# ============================================================================
+# IDE
+# ============================================================================
+.idea/
+.vscode/
+
+# ============================================================================
+# Misc
+# ============================================================================
+backup.sql
+.codewhale/
+
 # All plugins
 #
 # Note: If you wish to whitelist plugins,
 # uncomment the next line
-#/wp-content/plugins
+# /wp-content/plugins
 
 # All themes
 #
 # Note: If you wish to whitelist themes,
 # uncomment the next line
-#/wp-content/themes
+# /wp-content/themes

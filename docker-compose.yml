@@ -1,0 +1,134 @@
+# =============================================================================
+# Impax Bud — WordPress Docker Environment
+# =============================================================================
+# Запуск (без phpMyAdmin та Node):  docker compose up -d
+# З phpMyAdmin:                     docker compose --profile tools up -d
+# З Node.js збіркою:                docker compose --profile frontend up -d
+# Все разом:                        docker compose --profile full up -d
+# Зупинка:                          docker compose down
+# Логи:                             docker compose logs -f wordpress
+# =============================================================================
+
+services:
+  # ---------------------------------------------------------------------------
+  # WordPress + Apache + PHP 8.2
+  # ---------------------------------------------------------------------------
+  wordpress:
+    build:
+      context: ./docker/wordpress
+      dockerfile: Dockerfile
+    container_name: ${PROJECT_NAME}_wordpress
+    restart: unless-stopped
+    ports:
+      - "${WP_PORT}:80"
+    environment:
+      WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
+      WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
+      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
+      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
+      WORDPRESS_TABLE_PREFIX: ${WORDPRESS_TABLE_PREFIX}
+      WORDPRESS_DEBUG: ${WORDPRESS_DEBUG:-1}
+      WORDPRESS_CONFIG_EXTRA: ${WORDPRESS_CONFIG_EXTRA:-}
+      WP_HOME: ${WP_HOME}
+      WP_SITEURL: ${WP_SITEURL}
+      LANG: ${WP_LANG:-uk}
+    volumes:
+      - ./wp-content/themes/impax_theme:/var/www/html/wp-content/themes/impax_theme
+      - ./wp-content/plugins:/var/www/html/wp-content/plugins
+      - wp_uploads:/var/www/html/wp-content/uploads
+      - ./docker/wordpress/php.ini:/usr/local/etc/php/conf.d/custom.ini
+      - ./docker/wordpress/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+      - ./docker/wordpress/wp-cli.yml:/var/www/html/wp-cli.yml
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - wp_network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  # ---------------------------------------------------------------------------
+  # MariaDB 10.11
+  # ---------------------------------------------------------------------------
+  db:
+    image: mariadb:10.11
+    container_name: ${PROJECT_NAME}_db
+    restart: unless-stopped
+    ports:
+      - "${DB_PORT}:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - wp_network
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # ---------------------------------------------------------------------------
+  # phpMyAdmin (опціонально: docker compose --profile tools up -d)
+  # ---------------------------------------------------------------------------
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: ${PROJECT_NAME}_pma
+    restart: unless-stopped
+    ports:
+      - "${PMA_PORT}:80"
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_USER: ${MYSQL_USER:-wordpress}
+      PMA_PASSWORD: ${MYSQL_PASSWORD:-wordpress}
+      UPLOAD_LIMIT: 256M
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - wp_network
+    profiles:
+      - tools
+      - full
+
+  # ---------------------------------------------------------------------------
+  # Node.js — SCSS/JS збірка (опціонально: docker compose --profile frontend up -d)
+  # ---------------------------------------------------------------------------
+  node:
+    build:
+      context: ./docker/node
+      dockerfile: Dockerfile
+    container_name: ${PROJECT_NAME}_node
+    restart: unless-stopped
+    ports:
+      - "${NODE_PORT}:3000"
+    volumes:
+      - ./wp-content/themes/impax_theme:/app
+      - node_modules:/app/node_modules
+    working_dir: /app
+    command: ["npm", "run", "dev"]
+    stdin_open: true
+    tty: true
+    networks:
+      - wp_network
+    profiles:
+      - frontend
+      - full
+
+volumes:
+  db_data:
+    name: ${PROJECT_NAME}_db_data
+  wp_uploads:
+    name: ${PROJECT_NAME}_uploads
+  node_modules:
+    name: ${PROJECT_NAME}_node_modules
+
+networks:
+  wp_network:
+    name: ${PROJECT_NAME}_network
+    driver: bridge
