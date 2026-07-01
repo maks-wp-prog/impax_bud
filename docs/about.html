@@ -12,8 +12,7 @@
 <header class="header header--scrolled" id="header">
     <div class="container header__inner">
         <a href="index.html" class="header__logo">
-            <span class="header__logo-text">Impax</span>
-            <span class="header__logo-accent">.Bud</span>
+            <img src="assets/img/projects/logo.png" alt="Impax.Bud" class="header__logo-img">
         </a>
         <nav class="header__nav">
             <ul class="header__menu">
@@ -23,11 +22,41 @@
                 <li><a href="index.html#contact" class="header__link">Kontakt</a></li>
             </ul>
         </nav>
+
+        <div class="header__lang">
+            <button class="header__lang-btn header__lang-btn--active" data-lang="pl" aria-label="Polski">
+                    <svg class="header__flag" width="22" height="15" viewBox="0 0 22 15"><rect y="0" width="22" height="7.5" fill="#fff"/><rect y="7.5" width="22" height="7.5" fill="#dc143c"/></svg>
+                </button>
+                <span class="header__lang-sep"></span>
+                <button class="header__lang-btn" data-lang="uk" aria-label="Українська">
+                    <svg class="header__flag" width="22" height="15" viewBox="0 0 22 15"><rect y="0" width="22" height="7.5" fill="#0057b7"/><rect y="7.5" width="22" height="7.5" fill="#ffd700"/></svg>
+                </button>
+                <span class="header__lang-sep"></span>
+                <button class="header__lang-btn" data-lang="ru" aria-label="Русский">
+                    <svg class="header__flag" width="22" height="15" viewBox="0 0 22 15"><rect y="0" width="22" height="5" fill="#fff"/><rect y="5" width="22" height="5" fill="#0039a6"/><rect y="10" width="22" height="5" fill="#d52b1e"/></svg>
+                </button>
+        </div>
+
         <button class="header__burger" aria-label="Menu">
             <span></span><span></span><span></span>
         </button>
     </div>
 </header>
+
+<!-- ====================================================================== -->
+<!-- MOBILE NAVIGATION -->
+<!-- ====================================================================== -->
+<div class="mobile-nav" id="mobileNav">
+    <div class="mobile-nav__backdrop"></div>
+    <div class="mobile-nav__panel">
+        <button class="mobile-nav__close" aria-label="Zamknij menu">&times;</button>
+        <a href="index.html" class="mobile-nav__logo">
+            <img src="assets/img/projects/logo.png" alt="Impax.Bud">
+        </a>
+        <nav class="mobile-nav__menu"></nav>
+        <div class="mobile-nav__lang"></div>
+    </div>
+</div>
 
 <!-- ====================================================================== -->
 <!-- PAGE HEADER -->
@@ -143,8 +172,7 @@
     <div class="container footer__inner">
         <div class="footer__col">
             <a href="index.html" class="footer__logo">
-                <span class="footer__logo-text">Impax</span>
-                <span class="footer__logo-accent">.Bud</span>
+                <img src="assets/img/projects/logo.png" alt="Impax.Bud" class="footer__logo-img">
             </a>
             <p class="footer__desc">
                 Yaroslav Boliuk<br>
