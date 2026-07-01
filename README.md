@@ -1,124 +1,120 @@
-# Impax Bud
 
-Приватний WordPress-проєкт для клієнта. Двомовний сайт: українська + польська.
+# Impax.Bud
 
-## Стек
+Firma budowlana Yaroslav Boliuk — Warszawa, Białołęka.
+Strona dwujęzyczna: polski + ukraiński.
 
-- WordPress 6.x
+## Stack
+
+- WordPress 7.x
 - PHP 8.2+
 - HTML / SCSS / JavaScript
 
-## Вимоги
+## Wymagania
 
 - Docker & Docker Compose
-- Node.js 20+ (локально або через Docker)
+- Node.js 20+ (lokalnie lub przez Docker)
 
 ---
 
-## Швидкий старт (Docker)
+## Szybki start (Docker)
 
-### 1. Клонувати репозиторій
+### 1. Sklonuj repozytorium
 
-```bash
 git clone <repo-url> impax_bud
 cd impax_bud
-```
 
-### 2. Налаштувати змінні оточення
+### 2. Skonfiguruj zmienne środowiskowe
 
-```bash
-cp .env.example .env
-```
+copy .env.example .env
 
-Відредагуйте `.env` — мінімум змініть паролі.
+Edytuj `.env` — minimum zmień hasła.
 
-### 3. Запустити Docker
+### 3. Uruchom Docker
 
-```bash
-# WordPress + MariaDB
+WordPress + MariaDB
+────────────────────────────────────────
 docker compose up -d
 
-# WordPress + MariaDB + phpMyAdmin (http://localhost:8080)
+WordPress + MariaDB + phpMyAdmin (http://localhost:8081)
+────────────────────────────────────────
 docker compose --profile tools up -d
 
-# Усе разом: WP + DB + phpMyAdmin + Node.js збірка
+Wszystko: WP + DB + phpMyAdmin + Node.js
+────────────────────────────────────────
 docker compose --profile full up -d
-```
 
-### 4. Відкрити сайт
+### 4. Otwórz stronę
 
-- **Сайт:** http://localhost:8000
-- **phpMyAdmin:** http://localhost:8080 (якщо запущено з `--profile tools`)
+- **Strona:** http://localhost:8000
+- **phpMyAdmin:** http://localhost:8081 (tylko z `--profile tools`)
 
 ---
 
-## Розробка
+## Development
 
-### Docker-сервіси
+### Serwisy Docker
 
-| Сервіс | Порт   | Призначення |
-|---|--------|---|
-| `wordpress` | `8000` | WP 6.x + PHP 8.2 + Apache + Xdebug 3 + Composer + WP-CLI |
+| Serwis | Port | Opis |
+|---|---|---|
+| `wordpress` | `8000` | WP 7.x + PHP 8.2 + Apache + Xdebug 3 + Composer + WP-CLI |
 | `db` | `3307` | MariaDB 10.11 |
-| `phpmyadmin` | `8080` | Веб-інтерфейс для БД (опціонально) |
-| `node` | `3000` | Node.js 20 — збірка SCSS/JS (опціонально) |
+| `phpmyadmin` | `8081` | Panel zarządzania bazą danych (opcjonalnie) |
+| `node` | `3000` | Node.js 20 — build SCSS/JS (opcjonalnie) |
 
-### Корисні команди
+### Przydatne komendy
 
-```bash
-# Логи WordPress
+Logi WordPress
+────────────────────────────────────────
 docker compose logs -f wordpress
 
-# WP-CLI (всередині контейнера)
+WP-CLI (wewnątrz kontenera)
+────────────────────────────────────────
 docker compose exec wordpress wp plugin list
 docker compose exec wordpress wp language core install uk
 docker compose exec wordpress wp language core install pl_PL
 
-# Composer
+Composer
+────────────────────────────────────────
 docker compose exec wordpress composer install
 
-# Зупинка
+Zatrzymanie
+────────────────────────────────────────
 docker compose down
 
-# Повне очищення (база даних також!)
+Całkowite czyszczenie (baza danych również!)
+────────────────────────────────────────
 docker compose down -v
-```
 
 ### Xdebug
 
-Xdebug 3 налаштований для VSCode. Порт `9003`, IDE key `VSCODE`.
-Для PhpStorm змініть `XDEBUG_IDEKEY` у `.env`.
+Xdebug 3 skonfigurowany dla VSCode. Port `9003`, IDE key `VSCODE`.
+Dla PhpStorm zmień `XDEBUG_IDEKEY` w `.env`.
 
-### Мультимовність
+### Wielojęzyczność
 
-Сайт підтримує **українську** та **польську** мови. Після першого запуску:
+Strona wspiera języki **polski** i **ukraiński**. Po pierwszym uruchomieniu:
 
-```bash
-# Завантажити мовні пакети
-docker compose exec wordpress wp language core install uk
 docker compose exec wordpress wp language core install pl_PL
-```
-
-Для мультимовного контенту використовується **Polylang** (безкоштовний плагін).
+docker compose exec wordpress wp language core install uk
 
 ---
 
-## Збірка фронтенду
+## Build frontendu
 
-```bash
-# Запустити Node.js контейнер для збірки
+Uruchom kontener Node.js do budowania
+────────────────────────────────────────
 docker compose --profile frontend up -d
 
-# Або локально:
+Lub lokalnie:
+────────────────────────────────────────
 npm install
 npm run dev
-```
 
 ---
 
-## Структура проєкту
+## Struktura projektu
 
-```
 impax_bud/
 ├── docker-compose.yml
 ├── .env.example
@@ -126,21 +122,28 @@ impax_bud/
 ├── .editorconfig
 ├── .gitattributes
 ├── docker/
-│   ├── wordpress/
-│   │   ├── Dockerfile
-│   │   ├── php.ini
-│   │   ├── xdebug.ini
-│   │   └── wp-cli.yml
-│   └── node/
-│       └── Dockerfile
-└── wp-content/
-    ├── themes/
-    │   └── impax-bud/       # тема проєкту
-    └── plugins/             # кастомні плагіни
-```
+├── wordpress/
+│   ├── Dockerfile
+│   ├── php.ini
+│   ├── xdebug.ini
+│   └── wp-cli.yml
+└── node/
+└── Dockerfile
+├── html/                   # prototyp HTML (landing page)
+├── index.html
+├── about.html
+├── services.html
+└── assets/
+├── css/style.css
+└── js/
+├── wp-content/
+├── themes/
+│   └── impax_theme/    # tema projektu
+└── plugins/
+└── README.md
 
 ---
 
-## Нотатки
+## Notatki
 
-Цей репозиторій містить пропрієтарний код і призначений виключно для внутрішньої розробки.
+Repozytorium zawiera kod własnościowy i jest przeznaczone wyłącznie do wewnętrznego rozwoju.
