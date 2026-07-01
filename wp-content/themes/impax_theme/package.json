@@ -1,0 +1,8 @@
+{
+    "name": "impax-theme",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "dev": "echo 'SCSS/JS build not configured yet — add your build tool (Vite, Webpack, or simple npm scripts)'"
+    }
+}

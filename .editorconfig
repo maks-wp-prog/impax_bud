@@ -15,4 +15,4 @@ indent_size = 2
 [*.{scss,css,js}]
 indent_style = space
 indent_size = 2
-```
+

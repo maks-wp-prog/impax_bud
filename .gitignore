@@ -26,6 +26,9 @@ wp-config.php
 # Example plugin
 /wp-content/plugins/hello.php
 
+# 3rd party plugins (installed via WP-CLI / Composer, not tracked in git)
+/wp-content/plugins/akismet/
+
 # Uploads
 /wp-content/uploads/
 

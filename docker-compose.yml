@@ -32,6 +32,9 @@ services:
       WP_HOME: ${WP_HOME}
       WP_SITEURL: ${WP_SITEURL}
       LANG: ${WP_LANG:-uk}
+      WORDPRESS_USERNAME: ${WP_ADMIN_USER:-admin}
+      WORDPRESS_PASSWORD: ${WP_ADMIN_PASSWORD:-admin}
+      WORDPRESS_EMAIL: ${WP_ADMIN_EMAIL:-admin@example.com}
     volumes:
       - ./wp-content/themes/impax_theme:/var/www/html/wp-content/themes/impax_theme
       - ./wp-content/plugins:/var/www/html/wp-content/plugins

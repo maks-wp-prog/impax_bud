@@ -115,6 +115,7 @@ npm run dev
 
 ## Struktura projektu
 
+```
 impax_bud/
 ├── docker-compose.yml
 ├── .env.example
@@ -122,25 +123,26 @@ impax_bud/
 ├── .editorconfig
 ├── .gitattributes
 ├── docker/
-├── wordpress/
-│   ├── Dockerfile
-│   ├── php.ini
-│   ├── xdebug.ini
-│   └── wp-cli.yml
-└── node/
-└── Dockerfile
+│   ├── wordpress/
+│   │   ├── Dockerfile
+│   │   ├── php.ini
+│   │   ├── xdebug.ini
+│   │   └── wp-cli.yml
+│   └── node/
+│       └── Dockerfile
 ├── html/                   # prototyp HTML (landing page)
-├── index.html
-├── about.html
-├── services.html
-└── assets/
-├── css/style.css
-└── js/
+│   ├── index.html
+│   ├── about.html
+│   ├── services.html
+│   └── assets/
+│       ├── css/style.css
+│       └── js/
 ├── wp-content/
-├── themes/
-│   └── impax_theme/    # tema projektu
-└── plugins/
+│   ├── themes/
+│   │   └── impax_theme/    # tema projektu
+│   └── plugins/
 └── README.md
+```
 
 ---
 
