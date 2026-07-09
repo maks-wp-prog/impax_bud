@@ -53,7 +53,7 @@ html {
 
 body {
     font-family: var(--font-sans);
-    font-size: 16px;
+    font-size: 20px;
     line-height: 1.6;
     color: #333;
     background: var(--color-white);
@@ -84,11 +84,11 @@ ul {
 }
 
 .section-title {
-    font-size: 2.25rem;
+    font-size: 2.812rem;
     font-weight: 700;
     text-align: center;
     margin-bottom: 16px;
-    color: var(--color-dark);
+    color: #2d2d2d;
 }
 
 .section-title--left {
@@ -100,7 +100,7 @@ ul {
     color: var(--color-gray);
     max-width: 600px;
     margin: 0 auto 48px;
-    font-size: 1.125rem;
+    font-size: 1.406rem;
 }
 
 /* --------------------------------------------------------------------------
@@ -156,7 +156,7 @@ ul {
 .btn {
     display: inline-block;
     padding: 14px 32px;
-    font-size: 1rem;
+    font-size: 1.25rem;
     font-weight: 600;
     border-radius: var(--radius);
     cursor: pointer;
@@ -183,7 +183,7 @@ ul {
 .btn--outline:hover,
 .btn--outline:focus-visible {
     background: var(--color-white);
-    color: var(--color-dark);
+    color: #2d2d2d;
 }
 
 .btn--block {
@@ -195,10 +195,14 @@ ul {
    HEADER
    -------------------------------------------------------------------------- */
 .header {
-    position: relative;
-    background: #0d0d0d;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
     z-index: 1000;
-    border-bottom: 1px solid rgba(255, 255, 255, .06);
+    background: rgba(0, 0, 0, .4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .header__inner {
@@ -215,7 +219,7 @@ ul {
 
 .header__tagline {
     color: rgba(255, 255, 255, .45);
-    font-size: .78rem;
+    font-size: 0.975rem;
     margin: 2px 0 0;
     line-height: 1.4;
 }
@@ -239,6 +243,7 @@ ul {
 .header__link {
     color: var(--color-white);
     font-weight: 500;
+    font-size: 1.312rem;
     transition: color var(--transition);
     position: relative;
 }
@@ -355,7 +360,7 @@ ul {
     background: none;
     border: none;
     color: var(--color-white);
-    font-size: 1.75rem;
+    font-size: 2.188rem;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -394,7 +399,7 @@ ul {
 .mobile-nav__menu a {
     display: block;
     color: var(--color-white);
-    font-size: 1.15rem;
+    font-size: 1.438rem;
     font-weight: 500;
     padding: 14px 12px;
     border-radius: var(--radius);
@@ -440,7 +445,7 @@ ul {
 .header__lang-btn {
     background: none;
     border: none;
-    font-size: 1.25rem;
+    font-size: 1.562rem;
     cursor: pointer;
     padding: 4px 6px;
     border-radius: 4px;
@@ -552,7 +557,7 @@ ul {
 }
 
 .hero__title {
-    font-size: 3.5rem;
+    font-size: 4.375rem;
     font-weight: 800;
     color: var(--color-white);
     line-height: 1.15;
@@ -560,7 +565,7 @@ ul {
 }
 
 .hero__subtitle {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     color: rgba(255, 255, 255, .7);
     margin-bottom: 40px;
     max-width: 560px;
@@ -574,11 +579,11 @@ ul {
 
 @media (max-width: 768px) {
     .hero__title {
-        font-size: 2.25rem;
+        font-size: 2.812rem;
     }
 
     .hero__subtitle {
-        font-size: 1rem;
+        font-size: 1.25rem;
     }
 
     .hero__actions {
@@ -618,20 +623,20 @@ ul {
 }
 
 .service-card__icon {
-    font-size: 2.5rem;
+    font-size: 3.125rem;
     margin-bottom: 16px;
 }
 
 .service-card__title {
-    font-size: 1.25rem;
+    font-size: 1.562rem;
     font-weight: 700;
-    color: var(--color-dark);
+    color: #2d2d2d;
     margin-bottom: 12px;
 }
 
 .service-card__text {
     color: var(--color-gray);
-    font-size: .95rem;
+    font-size: 1.188rem;
     line-height: 1.7;
 }
 
@@ -677,14 +682,14 @@ ul {
 
 .about__stat-number {
     display: block;
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight: 800;
     color: var(--color-primary);
 }
 
 .about__stat-label {
     display: block;
-    font-size: .9rem;
+    font-size: 1.125rem;
     color: var(--color-gray);
     margin-top: 4px;
 }
@@ -709,9 +714,14 @@ ul {
     font-weight: 700;
 }
 
+.about__image {
+    width: 100%;
+}
+
 .about__image img {
     width: 100%;
     height: auto;
+    object-fit: contain;
     border-radius: var(--radius);
     box-shadow: var(--shadow-md);
 }
@@ -721,8 +731,13 @@ ul {
         grid-template-columns: 1fr;
     }
 
+    .about__stats {
+        grid-template-columns: 1fr;
+    }
+
     .about__image {
         order: -1;
+        align-self: start;
     }
 }
 
@@ -769,13 +784,13 @@ ul {
 }
 
 .project-card__title {
-    font-size: 1.125rem;
+    font-size: 1.406rem;
     font-weight: 600;
     margin-bottom: 4px;
 }
 
 .project-card__location {
-    font-size: .875rem;
+    font-size: 1.094rem;
     opacity: .8;
 }
 
@@ -827,7 +842,7 @@ ul {
 }
 
 .contact__icon {
-    font-size: 1.25rem;
+    font-size: 1.562rem;
 }
 
 .contact__link {
@@ -855,7 +870,7 @@ ul {
     border: 1px solid var(--color-gray-light);
     border-radius: var(--radius);
     font-family: var(--font-sans);
-    font-size: .95rem;
+    font-size: 1.188rem;
     color: #333;
     transition: border var(--transition);
     background: var(--color-white);
@@ -876,7 +891,7 @@ select.form-input {
 }
 
 .form-note {
-    font-size: .75rem;
+    font-size: 0.938rem;
     color: var(--color-gray);
     margin-top: 12px;
     text-align: center;
@@ -921,7 +936,7 @@ select.form-input {
 
 .footer__title {
     color: var(--color-white);
-    font-size: 1rem;
+    font-size: 1.25rem;
     font-weight: 600;
     margin-bottom: 20px;
 }
@@ -946,7 +961,7 @@ select.form-input {
     border-top: 1px solid rgba(255, 255, 255, .1);
     padding: 20px;
     text-align: center;
-    font-size: .875rem;
+    font-size: 1.094rem;
     opacity: .5;
 }
 
@@ -959,7 +974,7 @@ select.form-input {
 
 .footer__social-title {
     color: var(--color-white);
-    font-size: 1rem;
+    font-size: 1.25rem;
     font-weight: 600;
     margin-bottom: 16px;
 }
@@ -1019,8 +1034,8 @@ select.form-input {
     border: 2px solid var(--color-gray-light);
     border-radius: 100px;
     background: var(--color-white);
-    color: var(--color-dark);
-    font-size: .9rem;
+    color: #2d2d2d;
+    font-size: 1.125rem;
     font-weight: 500;
     cursor: pointer;
     transition: var(--transition);
@@ -1084,7 +1099,7 @@ select.form-input {
     padding: 16px;
     background: linear-gradient(to top, rgba(0,0,0,.75), transparent);
     color: var(--color-white);
-    font-size: .875rem;
+    font-size: 1.094rem;
     font-weight: 500;
     opacity: 0;
     transition: opacity var(--transition);
@@ -1098,7 +1113,7 @@ select.form-input {
     border-radius: 100px;
     background: rgba(0,0,0,.6);
     color: var(--color-white);
-    font-size: .75rem;
+    font-size: 0.938rem;
     font-weight: 500;
 }
 
@@ -1153,8 +1168,7 @@ select.form-input {
 .gallery__load-more {
     display: flex;
     justify-content: center;
-    margin-top: 40px;
-    transition: opacity .3s ease;
+        transition: opacity .3s ease;
 }
 
 .gallery__load-more--hidden {
@@ -1222,13 +1236,13 @@ select.form-input {
 .lightbox__caption {
     color: var(--color-white);
     margin-top: 16px;
-    font-size: 1rem;
+    font-size: 1.25rem;
     text-align: center;
 }
 
 .lightbox__counter {
     color: rgba(255,255,255,.5);
-    font-size: .8rem;
+    font-size: 1rem;
     margin-top: 8px;
 }
 
@@ -1250,7 +1264,7 @@ select.form-input {
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    font-size: 2rem;
+    font-size: 2.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1263,7 +1277,7 @@ select.form-input {
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    font-size: 2rem;
+    font-size: 2.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1281,8 +1295,8 @@ select.form-input {
 @media (max-width: 640px) {
     .lightbox__prev { left: 8px; }
     .lightbox__next { right: 8px; }
-    .lightbox__prev, .lightbox__next { width: 36px; height: 36px; font-size: 1.5rem; }
-    .lightbox__close { width: 36px; height: 36px; font-size: 1.5rem; }
+    .lightbox__prev, .lightbox__next { width: 36px; height: 36px; font-size: 1.875rem; }
+    .lightbox__close { width: 36px; height: 36px; font-size: 1.875rem; }
 }
 
 /* --------------------------------------------------------------------------
@@ -1298,7 +1312,7 @@ select.form-input {
     margin: 4px;
     background: rgba(255,255,255,.1);
     border-radius: 100px;
-    font-size: .8rem;
+    font-size: 1rem;
 }
 
 /* --------------------------------------------------------------------------
@@ -1311,14 +1325,14 @@ select.form-input {
 }
 
 .page-hero__title {
-    font-size: 2.75rem;
+    font-size: 3.438rem;
     font-weight: 800;
     color: var(--color-white);
     margin-bottom: 12px;
 }
 
 .page-hero__subtitle {
-    font-size: 1.125rem;
+    font-size: 1.406rem;
     color: rgba(255,255,255,.6);
 }
 
@@ -1375,13 +1389,13 @@ select.form-input {
 }
 
 .value-card__icon {
-    font-size: 2.5rem;
+    font-size: 3.125rem;
     margin-bottom: 16px;
 }
 
 .value-card h3 {
-    font-size: 1.25rem;
-    color: var(--color-dark);
+    font-size: 1.562rem;
+    color: #2d2d2d;
     margin-bottom: 12px;
 }
 
@@ -1405,8 +1419,7 @@ select.form-input {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 24px;
-    margin-top: 40px;
-}
+    }
 
 .certs__item {
     text-align: center;
@@ -1417,7 +1430,7 @@ select.form-input {
 
 .certs__number {
     display: block;
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight: 800;
     color: var(--color-primary);
     margin-bottom: 8px;
@@ -1425,7 +1438,7 @@ select.form-input {
 
 .certs__label {
     display: block;
-    font-size: .9rem;
+    font-size: 1.125rem;
     color: var(--color-gray);
 }
 
@@ -1480,8 +1493,8 @@ select.form-input {
 }
 
 .service-detail__content h3 {
-    font-size: 1.125rem;
-    color: var(--color-dark);
+    font-size: 1.406rem;
+    color: #2d2d2d;
     margin: 24px 0 12px;
 }
 
@@ -1551,7 +1564,7 @@ select.form-input {
 
 .cta-bar h2 {
     color: var(--color-white);
-    font-size: 1.75rem;
+    font-size: 2.188rem;
     margin: 0;
 }
 
@@ -1594,18 +1607,18 @@ select.form-input {
     }
 
     .section-title {
-        font-size: 1.6rem;
+        font-size: 2rem;
     }
 
     .section-subtitle {
-        font-size: .95rem;
+        font-size: 1.188rem;
         margin-bottom: 32px;
     }
 
     /* --- Buttons --- */
     .btn {
         padding: 12px 24px;
-        font-size: .9rem;
+        font-size: 1.125rem;
     }
 
     /* --- Header --- */
@@ -1614,7 +1627,7 @@ select.form-input {
     }
 
     .header__logo-img {
-        width: 130px;
+        width: 100px;
     }
 
     .header__tagline {
@@ -1626,7 +1639,7 @@ select.form-input {
     }
 
     .header__link {
-        font-size: .85rem;
+        font-size: 1.188rem;
     }
 
     .header__lang-btn {
@@ -1634,8 +1647,8 @@ select.form-input {
     }
 
     .header__flag {
-        width: 18px;
-        height: 12px;
+        width: 16px;
+        height: 11px;
     }
 
     .header__lang-sep {
@@ -1645,15 +1658,16 @@ select.form-input {
     /* --- Hero --- */
     .hero {
         min-height: 90vh;
+        padding-top: 70px;
     }
 
     .hero__title {
-        font-size: 1.65rem;
+        font-size: 2.062rem;
         margin-bottom: 16px;
     }
 
     .hero__subtitle {
-        font-size: .9rem;
+        font-size: 1.125rem;
         margin-bottom: 28px;
     }
 
@@ -1671,13 +1685,16 @@ select.form-input {
 
     /* --- Gallery --- */
     .gallery__filters {
-        gap: 6px;
-        margin-bottom: 24px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        margin-top: 28px;
+        margin-bottom: 28px;
     }
 
     .gallery__filter-btn {
-        padding: 8px 14px;
-        font-size: .8rem;
+        padding: 10px 16px;
+        font-size: 1rem;
     }
 
     /* --- Contact --- */
@@ -1692,11 +1709,10 @@ select.form-input {
 
     .footer {
         padding: 40px 0 20px;
-        margin-top: 40px;
-    }
+            }
 
     .footer__bottom {
-        font-size: .8rem;
+        font-size: 1rem;
     }
 
     .footer__social {
@@ -1709,11 +1725,11 @@ select.form-input {
     }
 
     .page-hero__title {
-        font-size: 1.8rem;
+        font-size: 2.25rem;
     }
 
     .page-hero__subtitle {
-        font-size: .95rem;
+        font-size: 1.188rem;
         max-width: 280px;
     }
 
@@ -1723,7 +1739,7 @@ select.form-input {
     }
 
     .service-detail h2 {
-        font-size: 1.6rem;
+        font-size: 2rem;
     }
 
     /* --- Story --- */
@@ -1732,7 +1748,7 @@ select.form-input {
     }
 
     .story h2 {
-        font-size: 1.6rem;
+        font-size: 2rem;
     }
 
     /* --- Values --- */
@@ -1746,7 +1762,7 @@ select.form-input {
 
     /* --- CTA bar --- */
     .cta-bar h2 {
-        font-size: 1.3rem;
+        font-size: 1.625rem;
     }
 
     /* --- Certs --- */
@@ -1755,11 +1771,11 @@ select.form-input {
     }
 
     .certs__number {
-        font-size: 1.8rem;
+        font-size: 2.25rem;
     }
 
     .certs__label {
-        font-size: .8rem;
+        font-size: 1rem;
     }
 }
 
