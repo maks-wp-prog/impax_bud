@@ -1,7 +1,7 @@
 
 # Impax.Bud
 
-Firma budowlana Yaroslav Boliuk — Warszawa, Białołęka.
+Firma budowlana Yaroslav Boliuk — Warszawa.
 Strona dwujęzyczna: polski + ukraiński.
 
 ## Stack

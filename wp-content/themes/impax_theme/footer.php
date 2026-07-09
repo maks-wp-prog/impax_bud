@@ -17,7 +17,7 @@
             </a>
             <p class="footer__desc">
                 <?php esc_html_e( 'Yaroslav Boliuk', 'impax_theme' ); ?><br>
-                <?php esc_html_e( 'Firma budowlana z Białołęki.', 'impax_theme' ); ?><br>
+                <?php esc_html_e( 'Firma budowlana z Warszawy.', 'impax_theme' ); ?><br>
                 <?php esc_html_e( 'Budowa, remonty, wykończenia — solidnie i na czas.', 'impax_theme' ); ?>
             </p>
         </div>
