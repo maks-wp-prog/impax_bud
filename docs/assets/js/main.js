@@ -6,16 +6,8 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // =========================================================================
-    // Header scroll effect
+    // Header — static relative, no scroll logic needed
     // =========================================================================
-    const header = document.getElementById('header');
-    if (header) {
-        const onScroll = () => {
-            header.classList.toggle('header--scrolled', window.scrollY > 50);
-        };
-        window.addEventListener('scroll', onScroll, { passive: true });
-        onScroll();
-    }
 
     // =========================================================================
     // Smooth scroll for anchor links

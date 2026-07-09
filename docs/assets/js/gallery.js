@@ -5,6 +5,7 @@
  */
 
 const GALLERY_BATCH = 6;
+const ALL_MIX_COUNT  = 1; // items per category in "All" view
 
 class Gallery {
 
@@ -17,6 +18,14 @@ class Gallery {
         this.lightbox = null;
         this.currentCategory = 'all';
         this.isAnimating = false; // prevent double-clicks
+        this.allMixLoaded = ALL_MIX_COUNT; // progressive load for "All"
+
+        // Max items in any single category (for "All" load-more logic)
+        const catCounts = {};
+        this.items.forEach(item => {
+            catCounts[item.dataset.category] = (catCounts[item.dataset.category] || 0) + 1;
+        });
+        this.maxCatSize = Math.max(...Object.values(catCounts));
 
         this.initFilters();
         this.initLightbox();
@@ -40,13 +49,36 @@ class Gallery {
 
     /** Returns array of items matching current category filter */
     getFilteredItems() {
-        if (this.currentCategory === 'all') return this.items;
+        if (this.currentCategory === 'all') return this.getMixedItems();
         return this.items.filter(item => item.dataset.category === this.currentCategory);
+    }
+
+    /** Mixed view: last N items from each category, sorted by DOM order */
+    getMixedItems() {
+        const cats = {};
+        this.items.forEach(item => {
+            const cat = item.dataset.category;
+            if (!cats[cat]) cats[cat] = [];
+            cats[cat].push(item);
+        });
+        const mixed = [];
+        Object.values(cats).forEach(items => {
+            mixed.push(...items.slice(-this.allMixLoaded));
+        });
+        // Keep original DOM order
+        return mixed.sort((a, b) =>
+            this.items.indexOf(a) - this.items.indexOf(b)
+        );
     }
 
     /** Show next batch with staggered animation */
     showNextBatch() {
         this.isAnimating = true;
+
+        // "All" mode: expand by one more per category
+        if (this.currentCategory === 'all') {
+            this.allMixLoaded += ALL_MIX_COUNT;
+        }
 
         const filtered = this.getFilteredItems();
         const hidden = filtered.filter(item =>
@@ -88,10 +120,16 @@ class Gallery {
     updateLoadMoreButton(filtered = null) {
         if (!this.loadMoreWrap) return;
 
-        const items = filtered || this.getFilteredItems();
-        const hiddenCount = items.filter(item =>
-            item.classList.contains('gallery__item--hidden')
-        ).length;
+        let hiddenCount;
+        if (this.currentCategory === 'all') {
+            // "All" mode: button visible until every category is exhausted
+            hiddenCount = (this.allMixLoaded < this.maxCatSize) ? 1 : 0;
+        } else {
+            const items = filtered || this.getFilteredItems();
+            hiddenCount = items.filter(item =>
+                item.classList.contains('gallery__item--hidden')
+            ).length;
+        }
 
         if (hiddenCount === 0) {
             this.loadMoreWrap.classList.add('gallery__load-more--hidden');
@@ -124,6 +162,7 @@ class Gallery {
     applyFilter(category, animate = true) {
         this.isAnimating = true;
         this.currentCategory = category;
+        if (category === 'all') this.allMixLoaded = ALL_MIX_COUNT;
 
         // Active button state
         this.filterBtns.forEach(b => b.classList.remove('gallery__filter-btn--active'));
@@ -135,7 +174,7 @@ class Gallery {
             !item.classList.contains('gallery__item--hidden')
         );
         const targetItems = category === 'all'
-            ? this.items
+            ? this.getMixedItems()
             : this.items.filter(item => item.dataset.category === category);
 
         if (!animate) {
@@ -158,7 +197,7 @@ class Gallery {
 
         const itemsToHide = visibleNow.filter(item => !targetItems.includes(item));
 
-        if (itemsToHide.length === 0 && visibleNow.every(item => targetItems.includes(item))) {
+        if (category !== 'all' && visibleNow.length > 0 && itemsToHide.length === 0 && visibleNow.every(item => targetItems.includes(item))) {
             // All visible items are in target — just show more, don't hide anything
             this.items.forEach(item => {
                 if (!targetItems.includes(item)) {
@@ -220,10 +259,7 @@ class Gallery {
             this.isAnimating = false;
         }, lastDelay);
 
-        // Show button if needed
-        this.loadMoreWrap.style.display = '';
-        this.loadMoreWrap.offsetHeight;
-        this.loadMoreWrap.classList.remove('gallery__load-more--hidden');
+        // Show/hide button based on whether there are more items
         this.updateLoadMoreButton(targetItems);
     }
 
