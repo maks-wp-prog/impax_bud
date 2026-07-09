@@ -5,7 +5,7 @@
  */
 
 const GALLERY_BATCH = 6;
-const ALL_MIX_COUNT  = 1; // items per category in "All" view
+const ALL_MIX_COUNT = 1;
 
 class Gallery {
 
@@ -17,10 +17,9 @@ class Gallery {
         this.loadMoreWrap = container.querySelector('.gallery__load-more');
         this.lightbox = null;
         this.currentCategory = 'all';
-        this.isAnimating = false; // prevent double-clicks
-        this.allMixLoaded = ALL_MIX_COUNT; // progressive load for "All"
+        this.isAnimating = false;
+        this.allMixLoaded = ALL_MIX_COUNT;
 
-        // Max items in any single category (for "All" load-more logic)
         const catCounts = {};
         this.items.forEach(item => {
             catCounts[item.dataset.category] = (catCounts[item.dataset.category] || 0) + 1;
@@ -31,7 +30,6 @@ class Gallery {
         this.initLightbox();
         this.initLoadMore();
 
-        // Show first batch (no animation on init)
         this.applyFilter('all', false);
     }
 
@@ -65,7 +63,6 @@ class Gallery {
         Object.values(cats).forEach(items => {
             mixed.push(...items.slice(-this.allMixLoaded));
         });
-        // Keep original DOM order
         return mixed.sort((a, b) =>
             this.items.indexOf(a) - this.items.indexOf(b)
         );
@@ -75,7 +72,6 @@ class Gallery {
     showNextBatch() {
         this.isAnimating = true;
 
-        // "All" mode: expand by one more per category
         if (this.currentCategory === 'all') {
             this.allMixLoaded += ALL_MIX_COUNT;
         }
@@ -91,14 +87,11 @@ class Gallery {
             return;
         }
 
-        // Remove hidden class and add appearing with stagger delay
         batch.forEach((item, i) => {
             item.classList.remove('gallery__item--hidden');
             item.classList.add('gallery__item--appearing');
-            // Stagger delay
             item.style.animationDelay = `${i * 0.06}s`;
 
-            // Clean up after animation
             item.addEventListener('animationend', () => {
                 item.classList.remove('gallery__item--appearing');
                 item.style.animationDelay = '';
@@ -107,8 +100,7 @@ class Gallery {
             this.visibleCount++;
         });
 
-        // Wait for last item animation to finish before allowing next click
-        const lastDelay = (batch.length - 1) * 60 + 450; // ms
+        const lastDelay = (batch.length - 1) * 60 + 450;
         setTimeout(() => {
             this.isAnimating = false;
         }, lastDelay);
@@ -122,7 +114,6 @@ class Gallery {
 
         let hiddenCount;
         if (this.currentCategory === 'all') {
-            // "All" mode: button visible until every category is exhausted
             hiddenCount = (this.allMixLoaded < this.maxCatSize) ? 1 : 0;
         } else {
             const items = filtered || this.getFilteredItems();
@@ -133,13 +124,11 @@ class Gallery {
 
         if (hiddenCount === 0) {
             this.loadMoreWrap.classList.add('gallery__load-more--hidden');
-            // Remove from DOM after fade
             setTimeout(() => {
                 this.loadMoreWrap.style.display = 'none';
             }, 300);
         } else {
             this.loadMoreWrap.style.display = '';
-            // Trigger reflow then remove hidden class
             this.loadMoreWrap.offsetHeight;
             this.loadMoreWrap.classList.remove('gallery__load-more--hidden');
         }
@@ -153,7 +142,7 @@ class Gallery {
             btn.addEventListener('click', () => {
                 if (this.isAnimating) return;
                 const category = btn.dataset.filter;
-                if (category === this.currentCategory) return; // no-op
+                if (category === this.currentCategory) return;
                 this.applyFilter(category, true);
             });
         });
@@ -164,12 +153,10 @@ class Gallery {
         this.currentCategory = category;
         if (category === 'all') this.allMixLoaded = ALL_MIX_COUNT;
 
-        // Active button state
         this.filterBtns.forEach(b => b.classList.remove('gallery__filter-btn--active'));
         const activeBtn = this.container.querySelector(`[data-filter="${category}"]`);
         if (activeBtn) activeBtn.classList.add('gallery__filter-btn--active');
 
-        // Get currently visible items and target items
         const visibleNow = this.items.filter(item =>
             !item.classList.contains('gallery__item--hidden')
         );
@@ -178,7 +165,6 @@ class Gallery {
             : this.items.filter(item => item.dataset.category === category);
 
         if (!animate) {
-            // Instant: hide all, show first batch
             this.items.forEach(item => item.classList.add('gallery__item--hidden'));
             this.visibleCount = 0;
             const batch = targetItems.slice(0, GALLERY_BATCH);
@@ -191,14 +177,9 @@ class Gallery {
             return;
         }
 
-        // Animated transition:
-        // 1. Fade out currently visible items
-        // 2. After fade, hide all and show first batch with fade-in
-
         const itemsToHide = visibleNow.filter(item => !targetItems.includes(item));
 
         if (category !== 'all' && visibleNow.length > 0 && itemsToHide.length === 0 && visibleNow.every(item => targetItems.includes(item))) {
-            // All visible items are in target — just show more, don't hide anything
             this.items.forEach(item => {
                 if (!targetItems.includes(item)) {
                     item.classList.add('gallery__item--hidden');
@@ -209,7 +190,6 @@ class Gallery {
             return;
         }
 
-        // Step 1: fade out items that need to disappear
         let animatingOut = 0;
         itemsToHide.forEach(item => {
             animatingOut++;
@@ -224,24 +204,20 @@ class Gallery {
             }, { once: true });
         });
 
-        // Also hide visible items that ARE in target but exceed batch
         const visibleInTarget = visibleNow.filter(item => targetItems.includes(item));
         visibleInTarget.forEach(item => {
             item.classList.add('gallery__item--hidden');
         });
 
         if (itemsToHide.length === 0) {
-            // Nothing to animate out, just show new batch
             this.afterFilterAnimation(targetItems);
         }
     }
 
     afterFilterAnimation(targetItems) {
-        // Ensure ALL items are hidden first
         this.items.forEach(item => item.classList.add('gallery__item--hidden'));
         this.visibleCount = 0;
 
-        // Show first batch with staggered animation
         const batch = targetItems.slice(0, GALLERY_BATCH);
         batch.forEach((item, i) => {
             item.classList.remove('gallery__item--hidden');
@@ -259,7 +235,6 @@ class Gallery {
             this.isAnimating = false;
         }, lastDelay);
 
-        // Show/hide button based on whether there are more items
         this.updateLoadMoreButton(targetItems);
     }
 
@@ -287,7 +262,6 @@ class Gallery {
         );
         const currentIndex = visibleItems.indexOf(currentItem);
 
-        // Create lightbox
         this.lightbox = document.createElement('div');
         this.lightbox.className = 'lightbox';
         this.lightbox.innerHTML = `
@@ -312,7 +286,6 @@ class Gallery {
             const imgEl = item.querySelector('img');
             const caption = item.querySelector('.gallery__caption')?.textContent || '';
 
-            // Crossfade
             lightboxImg.classList.add('lightbox__img--fading');
 
             lightboxImg.addEventListener('transitionend', () => {
@@ -326,7 +299,6 @@ class Gallery {
                 `${index + 1} / ${visibleItems.length}`;
         };
 
-        // Navigation
         this.lightbox.querySelector('.lightbox__next').addEventListener('click', () => {
             index = (index + 1) % visibleItems.length;
             updateImage();
@@ -337,7 +309,6 @@ class Gallery {
             updateImage();
         });
 
-        // Close helpers
         this.closeLightbox = () => {
             if (!this.lightbox) return;
             this.lightbox.classList.add('lightbox--closing');
@@ -356,7 +327,6 @@ class Gallery {
             if (e.target === this.lightbox) this.closeLightbox();
         });
 
-        // Keyboard
         const onKey = (e) => {
             if (e.key === 'Escape') this.closeLightbox();
             if (e.key === 'ArrowRight') {

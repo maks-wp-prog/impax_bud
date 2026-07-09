@@ -6,11 +6,8 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // =========================================================================
-    // Header — static relative, no scroll logic needed
-    // =========================================================================
+    // Smooth scroll
 
-    // =========================================================================
-    // Smooth scroll for anchor links
     // =========================================================================
     document.querySelectorAll('a[href^="#"]').forEach(link => {
         link.addEventListener('click', function (e) {
@@ -23,13 +20,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // =========================================================================
-    // Scroll reveal — IntersectionObserver (better perf than scroll event)
+    // Scroll reveal
     // =========================================================================
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('reveal--visible');
-                // Once revealed, stop observing
                 revealObserver.unobserve(entry.target);
             }
         });
@@ -38,24 +34,19 @@ document.addEventListener('DOMContentLoaded', () => {
         rootMargin: '0px 0px -40px 0px'
     });
 
-    // Observe all elements with .reveal class
     document.querySelectorAll('.reveal').forEach(el => {
         revealObserver.observe(el);
     });
 
-    // Auto-add reveal classes to sections and key elements
     const sections = document.querySelectorAll('section');
     sections.forEach(section => {
-        // Section titles
         const title = section.querySelector('.section-title');
         if (title) title.classList.add('reveal', 'reveal--up');
 
-        // Section subtitles
         const subtitle = section.querySelector('.section-subtitle');
         if (subtitle) subtitle.classList.add('reveal', 'reveal--up');
     });
 
-    // Stagger children in service/values/certs grids
     const staggerContainers = document.querySelectorAll(
         '.services__grid, .values__grid, .certs__grid, .story__inner > *, .service-detail__inner > *'
     );
@@ -68,7 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Re-observe newly added elements
     document.querySelectorAll('.reveal:not(.reveal--visible)').forEach(el => {
         if (!el.dataset.revealObserved) {
             el.dataset.revealObserved = '1';
@@ -77,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // =========================================================================
-    // Language switcher (🇵🇱 PL / 🇺🇦 UA)
+    // Language switcher
     // =========================================================================
     const langBtns = document.querySelectorAll('.header__lang-btn');
 
@@ -90,7 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.classList.toggle('header__lang-btn--active', btn.dataset.lang === lang);
         });
 
-        // Fire event for other components to react
         document.dispatchEvent(new CustomEvent('langchange', { detail: { lang } }));
     }
 
@@ -100,12 +89,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Restore saved language
     const savedLang = localStorage.getItem('impax-lang') || 'pl';
     setLang(savedLang);
 
     // =========================================================================
-    // Mobile nav — full-screen slide from left
+    // Mobile nav
     // =========================================================================
     const mobileNav = document.getElementById('mobileNav');
     const burger = document.querySelector('.header__burger');
@@ -116,7 +104,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const closeBtn = mobileNav.querySelector('.mobile-nav__close');
         const backdrop = mobileNav.querySelector('.mobile-nav__backdrop');
 
-        // Populate menu from header nav
         const headerLinks = document.querySelectorAll('.header__menu a');
         if (menuContainer && headerLinks.length) {
             const ul = document.createElement('ul');
@@ -134,11 +121,9 @@ document.addEventListener('DOMContentLoaded', () => {
             menuContainer.appendChild(ul);
         }
 
-        // Populate lang switcher from header lang
         const headerLang = document.querySelector('.header__lang');
         if (langContainer && headerLang) {
             langContainer.innerHTML = headerLang.innerHTML;
-            // Re-init lang click handlers for mobile buttons
             langContainer.querySelectorAll('.header__lang-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
                     setLang(btn.dataset.lang);
@@ -163,7 +148,6 @@ document.addEventListener('DOMContentLoaded', () => {
         closeBtn.addEventListener('click', closeMobileNav);
         backdrop.addEventListener('click', closeMobileNav);
 
-        // Close on nav link click
         mobileNav.addEventListener('click', (e) => {
             const link = e.target.closest('.mobile-nav__menu a');
             if (link) {
@@ -171,14 +155,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Close on Escape
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && mobileNav.classList.contains('mobile-nav--open')) {
                 closeMobileNav();
             }
         });
 
-        // Swipe-left to close (mobile touch)
         let touchStartX = 0;
         const panel = mobileNav.querySelector('.mobile-nav__panel');
         if (panel) {

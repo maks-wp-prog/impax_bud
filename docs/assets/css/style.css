@@ -494,7 +494,6 @@ ul {
    -------------------------------------------------------------------------- */
 .hero {
     min-height: 100vh;
-    /* Fallback gradient — visible while video loads or if video fails */
     background: linear-gradient(135deg, var(--color-dark) 0%, var(--color-dark-alt) 100%);
     display: flex;
     align-items: center;
@@ -516,7 +515,6 @@ ul {
     display: block;
 }
 
-/* ── Overlay — darkens video so text stays readable ────────────────────── */
 .hero__overlay {
     position: absolute;
     inset: 0;
@@ -529,7 +527,6 @@ ul {
     );
 }
 
-/* Accent radial glow (subtle orange behind the headline) */
 .hero::before {
     content: '';
     position: absolute;
