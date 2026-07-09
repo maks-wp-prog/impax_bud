@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://impax-bud.pl/</loc>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://impax-bud.pl/"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://impax-bud.pl/uk/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://impax-bud.pl/"/>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://impax-bud.pl/about.html</loc>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://impax-bud.pl/about.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://impax-bud.pl/uk/about.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://impax-bud.pl/about.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://impax-bud.pl/services.html</loc>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://impax-bud.pl/services.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://impax-bud.pl/uk/services.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://impax-bud.pl/services.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+</urlset>
